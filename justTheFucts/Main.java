@@ -1,5 +1,3 @@
-//ID:zoothezoo1
-
 import java.util.Scanner;
 public class Main{
     static void solve(int N){
