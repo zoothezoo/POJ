@@ -1,36 +1,45 @@
-import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
+//zoothezoo1
+import java.util.*;
 
-public class Main{
+class Main{
 
-    List<Integer> card = new ArrayList<Integer>();
-    List<Integer> mark = new ArrayList<Integer>();
-    List<Integer> ans = new ArrayList<Integer>();
+    static int n,s;
+    static int num[][] = new int[1000][1000];
 
-
-    static void shuffle(int n){
-        int length = 0;
-        while(1){
-            for(int i=1;i<=n;i++){
-                mark.set
+    public static boolean judge(int step){
+        for(int i = 1;i <= n ; i++){
+            if(num[0][i] != num[step][i]){
+                return false;
             }
         }
-
+        return true;
     }
 
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         String[] input = sc.nextLine().split(" ");
-        int n = Integer.parseInt(input[0]);
-        int s = Integer.parseInt(input[1]);
-        for(int i=1; i<=n; i++){
-            int num = Integer.parseInt(sc.nextLine());
-            card.add(num);
-            ans.add(num);
+        n = Integer.parseInt(input[0]);
+        s = Integer.parseInt(input[1]);
+        int temp[] = new int[1000];
+        for(int i = 1 ; i<=n ; i++){
+            num[0][i] = Integer.parseInt(sc.nextLine());
         }
-        int length;
-        length = shuffle(n);
-        System.out.println(card);
+        int x = 0;
+        while(true){
+            x++;
+            for(int i = 1; i<= n; i++){
+                temp[i] = num[x-1][num[x-1][i]];
+            }
+            for(int i = 1; i<= n; i++){
+                num[x][i] = temp[i];
+            }
+            if(judge(x)){
+                break;
+            }
+        }
+        s = x -( s % x );
+        for(int i=1; i<= n ;i++){
+            System.out.println(num[s][i]);
+        }
     }
 }
