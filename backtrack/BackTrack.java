@@ -2,63 +2,67 @@ import java.util.*;
 
 public class BackTrack {
     public static List<Integer> ans;
-    public static List<Integer> t;
     public static List<Integer> num;
     public static int n;
-    public static int w;
+    public static int W;
+    public static List<Integer> w;
 
-    public static void generate(int i,List<Integer> t, int k, int sum) {
-        if(sum == w) {
-            for(int j = 0; j < t.size(); j++) {
-                ans.add(t.get(j));
-            }
-            return;
-        }
+
+    // i: 深さ
+    //    深さは1から始める
+    //    深さiの再帰呼び出しでは, w_iを選ぶのか選ばないのかを決める
+    // k: 選んだ正整数の個数
+    // t: 選んだ正整数の番号のリスト
+    //    tは長さkのリストである
+    // 戻り値: 解が見つかったらtrue, まだ見つかっていないのであればfalse
+    public static boolean generate(int i, int k, List<Integer> t) {
+        int sum = 0;
         if(i == n+1) {
-            return;
+            // t (ここで要素数がkのはず)が表す解の候補が解となるかを調べる
+            for(int j=0;j<k;j++){
+                sum += w.get(t.get(j));
+            }
+            if(sum == W){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
-        t.set(k,i);
-        generate(i+1,t, k+1, sum+num.get(i-1));
-        t.set(k,0);
-        generate(i+1,t, k ,sum);
+        // w_iを選ぶ場合
+        t.add(i);
+        if(generate(i+1, k+1, t)) {
+            return true;
+        }
+        // w_iを選ばない場合
+        t.remove(k);
+        if(generate(i+1, k, t)){
+            return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int m =Integer.parseInt(sc.nextLine());
-        for(int i = 0; i < m; i++) {
+        for(int test = 0; test < m; test++) {
             String[] input = sc.nextLine().split(" ");
             n = Integer.parseInt(input[0]);
-            w = Integer.parseInt(input[1]);
-            num = new ArrayList<Integer>();
-            for(int j = 0; j < n; j++) {
-                num.add(Integer.parseInt(sc.nextLine()));
-            }
-
-            ans = new ArrayList<>();
-            t = new ArrayList<>();
-            generate(1,t, 0, 0);
-
-            if(ans.size() == 0) {
-                System.out.print("NO");
-            } else {
-                String min = "999999";
-                String ansStr = "";
-                for(int j = 0; j < ans.size(); j++) {
-                    if((j+1) % n == 0) {
-                        if(min.compareTo(ansStr) > 0) {
-                            min = ansStr.trim();
-                        }
-                        ansStr = "";
-                    }
-                    if(ans.get(j) > 0) {
-                        ansStr += ans.get(j) + " ";
-                    }
+            W = Integer.parseInt(input[1]);
+            w = new ArrayList<Integer>();
+            w.add(0);
+                for(int j = 0; j < n; j++) {
+                    w.add(Integer.parseInt(sc.nextLine()));
                 }
-                System.out.print(min);
+            ans = new ArrayList<>();
+            List<Integer> t = new ArrayList<>();
+            boolean boo = generate(1,0,t);
+            if(boo == true){
+                System.out.println(Arrays.toString(t.toArray()));
             }
-            System.out.println();
+            else{
+                System.out.println("NO");
+            }
         }
-        sc.close();
     }
 }

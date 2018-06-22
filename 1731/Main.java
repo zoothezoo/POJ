@@ -1,7 +1,8 @@
+//zoothezoo
 import java.util.*;
 
 public class Main{
-    void perm(int i, String[] s, int n, int[] usable){
+    public static void perm(int i, String s, int n, int[] usable){
         if(i == n){
             System.out.println(s);
             return;
@@ -10,7 +11,7 @@ public class Main{
             int k = c - 'a';
             if(usable[k] > 0){
                 usable[k]--;
-                perm(i++ ,s ,n ,usable  );
+                perm(i+1 ,s+c ,n ,usable  );
                 usable[k]++;
             }
         }
@@ -24,6 +25,6 @@ public class Main{
         for(int i = 0 ;i< length ;i++){
             usable[array[i]-'a']++;
         }
-        perm(0, " " ,length, usable);
+        perm(0, "" ,length, usable);
     }
 }
