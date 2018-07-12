@@ -38,5 +38,13 @@ class Fib {
 
         System.out.println(end1 - begin1);
         System.out.println(end2 - begin2);
+
+        int dp = new int[100];
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i <= 99; i++) {
+            dp[i] = d[i - 1] + dp[i - 2];
+        }
+        System.out.println(dp[99]);
     }
 }

@@ -7,47 +7,47 @@ public class Main{
     static int[] coin = new int[4];
     static int[] cost = new int[4];
     static int[][] optS = new int[4][10001];
+    static int[][] memo = new int[4][10001];
 
-    /*
+
     // i: コインの種類を表す添字
     // Q: 支払総額(残りの支払額)
     public static int opt(int i, int Q){
-    if(Q==0){
-    return 0;
-    }
-    //再帰しない場合
-    if(i < 0){
-    if(Q == 0){
-    return 0;
-    }else{
-    return -1;
-    }
-    }
-    int max = -1; //枚数:returnする
+        if(Q==0){
+            return 0;
+        }
+        //再帰しない場合
+        if(i < 0){
+            if(Q == 0){
+                return 0;
+            }else{
+                return -1;
+            }
+        }
+        int max = -1; //枚数:returnする
 
-    if(memo[i][Q] != -10){
-    return memo[i][Q];
+        if(memo[i][Q] != -10){
+            return memo[i][Q];
+        }
+        //System.out.println("i: " + i + " q: " + Q);
+        //再帰する場合
+        for(int s=0; s<=coin[i]; s++){ // s: コインの支払い枚数
+            if(Q < cost[i]*s){
+                break;
+            }
+            int o = opt(i-1,Q-cost[i]*s);
+            if(o < 0){
+                continue;
+            }
+            int v = o + s;
+            if(v >= max){
+                optS[i][Q] = s;
+                max = v;
+            }
+        }
+        memo[i][Q] = max;
+        return max;
     }
-    //System.out.println("i: " + i + " q: " + Q);
-    //再帰する場合
-    for(int s=0; s<=coin[i]; s++){ // s: コインの支払い枚数
-    if(Q < cost[i]*s){
-    break;
-    }
-    int o = opt(i-1,Q-cost[i]*s);
-    if(o < 0){
-    continue;
-    }
-    int v = o + s;
-    if(v >= max){
-    optS[i][Q] = s;
-    max = v;
-    }
-    }
-    memo[i][Q] = max;
-    return max;
-    }
-    */
 
 
     public static void main(String[] args) throws Exception{
@@ -71,22 +71,6 @@ public class Main{
                     memo[i][j] = -10;
                 }
             }
-
-
-            int[][] dp = new int[4][price + 1];
-
-            if(cost[0]*coin[0] >= Q){
-                quarters = coin[0];
-            }
-            else{
-                quarters = 0;
-            }
-            for(i=1; i<4; i++){
-                for(int j=0; j<price+1; j++){
-                    if()
-                }
-            }
-
             int ans = opt(3,price);
             int quarters = optS[3][price];
             int dimes = optS[2][price - cost[3]*quarters];
