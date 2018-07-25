@@ -52,10 +52,7 @@ public class Main{
 
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        cost[0] = 1;
-        cost[1] = 5;
-        cost[2] = 10;
-        cost[3] = 25;
+        cost[] = {1, 5, 10, 25};
 
         while(true){
             String[] input = br.readLine().split(" ");
@@ -71,7 +68,6 @@ public class Main{
                     memo[i][j] = -10;
                 }
             }
-
 
             int[][] dp = new int[4][price + 1];
 
